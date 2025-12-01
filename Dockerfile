@@ -3,4 +3,5 @@ WORKDIR /app
 COPY . /app
 RUN mvn clean package -DskipTests
 EXPOSE 8080
-ENTRYPOINT ["java", "-jar", "target/HotelPlatform-1.0.jar"]
+ENTRYPOINT ["java", "-jar", "target/Hotel-Platform-0.0.1-SNAPSHOT.jar"]
+
