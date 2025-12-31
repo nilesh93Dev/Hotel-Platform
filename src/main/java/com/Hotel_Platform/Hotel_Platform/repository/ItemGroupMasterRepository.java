@@ -11,8 +11,13 @@ import com.Hotel_Platform.Hotel_Platform.entity.ItemGroupMaster;
 @Repository
 public interface ItemGroupMasterRepository extends JpaRepository<ItemGroupMaster, Long> {
 
-	Optional<ItemGroupMaster> findByGroupNameIgnoreCaseAndTenantId(String groupName, Long tenantId);
+	//Optional<ItemGroupMaster> findByGroupNameIgnoreCaseAndTenantId(String groupName, Long tenantId);
 
-	List<ItemGroupMaster> findByTenantId(Long tenantId);
+	
+	Optional<ItemGroupMaster> findByGroupNameIgnoreCaseAndTenant_Id(String groupName, Long tenantId);
+	//List<ItemGroupMaster> findByTenantId(Long tenantId);
 
+	
+	
+	List<ItemGroupMaster> findByTenant_Id(Long tenantId);
 }

@@ -1,5 +1,7 @@
 package com.Hotel_Platform.Hotel_Platform.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
@@ -7,16 +9,17 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Entity
-@Setter
-@Getter
+
 @NoArgsConstructor
 @AllArgsConstructor
+@Table(name = "item_group_master")
 public class ItemGroupMaster {
 	
 	@Id
@@ -27,6 +30,7 @@ public class ItemGroupMaster {
 	
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "tenants_id")
+	@JsonIgnore
 	private Tenant tenant;
 
 	public Long getId() {
@@ -54,7 +58,4 @@ public class ItemGroupMaster {
 	}
 
 	
-	
-	
-
 }

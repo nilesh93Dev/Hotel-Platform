@@ -93,9 +93,9 @@ public class ItemUnitMasterService {
 	
 	public void deleteUnit(Long id, Long tenantId) {
 		ItemUnitMaster unit = itemUnitRepo.findByIdAndTenant_Id(id, tenantId)
-				.orElseThrow(() -> new RuntimeException(" Unit Type not found or tenantId mismatch! "));
+            .orElseThrow(() -> new RuntimeException("Unit Type not found or ShopId mismatch"));
 		itemUnitRepo.delete(unit);
-	}
+    }
 
 
 	//public void deleteUnit(Long id, Long tenantId) {

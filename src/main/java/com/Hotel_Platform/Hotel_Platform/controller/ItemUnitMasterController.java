@@ -81,13 +81,12 @@ public class ItemUnitMasterController {
 	
 	
 	@DeleteMapping("/{id}")
-	public ResponseEntity<String> deleteUnit(
-			@PathVariable Long id,
-			@RequestParam Long tenantId) {
-		
+    public ResponseEntity<String> deleteUnit(
+        @PathVariable Long id,
+        @RequestParam Long tenantId) {
 		itemunitService.deleteUnit(id, tenantId);
-		return ResponseEntity.ok(" Item Unit delete Successfully! ");
-	}
+        return ResponseEntity.ok("Item Unit deleted successfully");
+    }
 	
 
 }

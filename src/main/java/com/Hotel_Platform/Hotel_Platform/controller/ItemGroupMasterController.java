@@ -13,8 +13,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.Hotel_Platform.Hotel_Platform.dto.ItemGroupDTO;
 import com.Hotel_Platform.Hotel_Platform.dto.SuccessResponse;
-import com.Hotel_Platform.Hotel_Platform.entity.ItemGroupMaster;
 import com.Hotel_Platform.Hotel_Platform.service.ItemGroupMasterService;
 
 @CrossOrigin(origins = "*")
@@ -27,26 +27,32 @@ public class ItemGroupMasterController {
 	private ItemGroupMasterService itemGroupService;
 	
 	@PostMapping
-	public ResponseEntity<SuccessResponse<ItemGroupMaster>> createGroup(@RequestBody ItemGroupMaster itemGroup,
-			                                                            @RequestParam Long tenantId){
-		ItemGroupMaster savedGroup = itemGroupService.createGroup(itemGroup, tenantId);
-		
-		SuccessResponse<ItemGroupMaster> response = new SuccessResponse<>(
-				HttpStatus.OK.value(), 
-				"Item Group Created successfully", savedGroup);
-		
-		return ResponseEntity.ok(response);
-	}
-	
-	
-	@GetMapping
-	public ResponseEntity<SuccessResponse<List<ItemGroupMaster>>> getAllGroups(@RequestParam Long tenantId){
-		List<ItemGroupMaster> listGroups = itemGroupService.getAllGroupsByTenant(tenantId);
-		
-		SuccessResponse<List<ItemGroupMaster>> response = new SuccessResponse<>(HttpStatus.OK.value(),
-				"Item Group Fetched Successfully", listGroups);
-		
-		return ResponseEntity.ok(response);
+	public ResponseEntity<SuccessResponse<ItemGroupDTO>> createGroup(
+	        @RequestBody ItemGroupDTO itemGroupDto,
+	        @RequestParam Long tenantId) {
+
+	    ItemGroupDTO dto = itemGroupService.createGroup(itemGroupDto, tenantId);
+	   
+	    System.out.println("Returning DTO tenant class: " + dto.getTenant().getClass().getName());
+
+	    return ResponseEntity.ok(
+	        new SuccessResponse<>(200, "Item Group Created successfully", dto)
+	    );
 	}
 
-}
+
+	
+
+
+
+@GetMapping 
+public ResponseEntity<SuccessResponse<List<ItemGroupDTO>>> getAllGroups(
+		@RequestParam Long tenantId) { 
+	List<ItemGroupDTO> listGroups = itemGroupService.getAllGroupsByTenant(tenantId); 
+	SuccessResponse<List<ItemGroupDTO>> response = new SuccessResponse<>( 
+			HttpStatus.OK.value(),
+			"Item Group Fetched Successfully", listGroups );
+	return ResponseEntity.ok(response);
+	} }
+
+

@@ -1,12 +1,18 @@
 package com.Hotel_Platform.Hotel_Platform.entity;
 
+import java.util.List;
 import java.util.UUID;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -15,9 +21,10 @@ import lombok.Setter;
 
 @Entity
 @Table(name = "tenant")
-@Getter @Setter
+//@Getter @Setter
 @AllArgsConstructor
 @NoArgsConstructor
+@JsonIgnoreProperties({"contactEmail", "gstNumber", "phoneNumber", "address", "password", "tenantCode"})
 public class Tenant {
 	
 	
@@ -44,8 +51,6 @@ public class Tenant {
 	private String address;
 	
 	private String password;
-
-	
 
 	public Long getId() {
 		return id;
@@ -113,12 +118,13 @@ public class Tenant {
 	
 	
 	
+}
+
 	
-	
-	
-	
-	
+//	@OneToMany(mappedBy = "tenant", cascade = CascadeType.ALL, orphanRemoval = true)
+//	@JsonIgnore
+//	// ✅ prevents tenant object leak 
+//	private List<ItemGroupMaster> groups;
 	
 	
 
-}
