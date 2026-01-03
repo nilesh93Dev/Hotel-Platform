@@ -1,36 +1,30 @@
 package com.Hotel_Platform.Hotel_Platform.entity;
 
-import java.util.List;
-import java.util.UUID;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-
-import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.OneToMany;
+
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
-import lombok.Getter;
+
 import lombok.NoArgsConstructor;
-import lombok.Setter;
+
 
 @Entity
-@Table(name = "tenant")
+@Table(name = "tenant_master")
 //@Getter @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-@JsonIgnoreProperties({"contactEmail", "gstNumber", "phoneNumber", "address", "password", "tenantCode"})
+//@JsonIgnoreProperties({"contactEmail", "gstNumber", "phoneNumber", "address", "password", "tenantCode"})
 public class Tenant {
 	
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name = "tenantt_id", nullable = false , updatable = false)
+	@Column(name = "tenant_id", nullable = false , updatable = false)
 	private Long id;
 	
 	private String tenantCode;
@@ -121,10 +115,6 @@ public class Tenant {
 }
 
 	
-//	@OneToMany(mappedBy = "tenant", cascade = CascadeType.ALL, orphanRemoval = true)
-//	@JsonIgnore
-//	// ✅ prevents tenant object leak 
-//	private List<ItemGroupMaster> groups;
-	
+
 	
 
