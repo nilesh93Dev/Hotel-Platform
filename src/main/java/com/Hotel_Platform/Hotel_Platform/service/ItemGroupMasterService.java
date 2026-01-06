@@ -56,7 +56,7 @@ public class ItemGroupMasterService {
 	    }
 
 	    ItemGroupMaster saved = itemGroupRepository.save(entity);
-	    return mapToDTO(saved);  // ✅ Only DTO returned
+	    return mapToDTO(saved);
 	}
 
 
