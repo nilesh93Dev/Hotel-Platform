@@ -6,5 +6,6 @@ public class ApiPath {
 	public static final String TENANT_MASTER = BASE + "/tenantmaster";
 	public static final String UNIT_MASTER = BASE + "/itemunits";
 	public static final String DISH_TYPE_MASTER = BASE + "/dishtype";
+	public static final String DISH_HEAD_MASTER = BASE + "/dishhead";
 
 }
