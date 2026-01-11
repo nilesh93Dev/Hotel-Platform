@@ -69,9 +69,10 @@ public class FloorMasterService {
     	Optional<FloorMaster> existing =
     			floorMasterRepo.findByFloorNameIgnoreCaseAndTenant_Id(floorDto.getFloorName(), tenantId);
     			
-    	if(existing.isPresent()) {
-    		new CustomException(" Floor Master All ready Exists with this Tenant Id ", HttpStatus.BAD_REQUEST);
+    	if (existing.isPresent()) {
+    	    throw new CustomException("Floor Master Already Exists with this Tenant Id", HttpStatus.BAD_REQUEST);
     	}
+
     	
     	FloorMaster saved = floorMasterRepo.save(entity);
     	return mapToDTO(saved);

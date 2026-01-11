@@ -18,30 +18,35 @@ import jakarta.servlet.http.HttpServletRequest;
 @RestControllerAdvice
 public class GlobalExceptionHandler {
 
+    // ✅ Handle CustomException (service-level checks)
     @ExceptionHandler(CustomException.class)
     public ResponseEntity<ErrorResponse> handleCustomException(CustomException ex, HttpServletRequest request) {
         ErrorResponse error = new ErrorResponse(
             LocalDateTime.now(),
             ex.getStatus().value(),
             ex.getStatus().getReasonPhrase(),
-            ex.getMessage(),
+            ex.getMessage(),   // dynamic message from throw
             request.getRequestURI()
         );
         return new ResponseEntity<>(error, ex.getStatus());
     }
-    
+
+    // ✅ Handle DB constraint violations (fallback if service check missed)
     @ExceptionHandler(DataIntegrityViolationException.class)
     public ResponseEntity<ErrorResponse> handleDataIntegrityViolation(DataIntegrityViolationException ex, HttpServletRequest request) {
+        String message = "Duplicate entry detected. Please check your input.";
+        // You can also parse ex.getMostSpecificCause().getMessage() if you want DB-level detail
         ErrorResponse error = new ErrorResponse(
             LocalDateTime.now(),
             HttpStatus.BAD_REQUEST.value(),
             "Bad Request",
-            "Unit already exists with this UnitName for this tenant",
+            message,
             request.getRequestURI()
         );
         return new ResponseEntity<>(error, HttpStatus.BAD_REQUEST);
     }
 
+    // ✅ Handle validation errors
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public ResponseEntity<ErrorResponse> handleValidationError(MethodArgumentNotValidException ex, HttpServletRequest request) {
         String message = ex.getBindingResult().getFieldErrors().stream()
@@ -58,6 +63,7 @@ public class GlobalExceptionHandler {
         return new ResponseEntity<>(error, HttpStatus.BAD_REQUEST);
     }
 
+    // ✅ Handle any other unexpected exceptions
     @ExceptionHandler(Exception.class)
     public ResponseEntity<ErrorResponse> handleGenericException(Exception ex, HttpServletRequest request) {
         ErrorResponse error = new ErrorResponse(
