@@ -8,5 +8,6 @@ public class ApiPath {
 	public static final String DISH_TYPE_MASTER = BASE + "/dishtype";
 	public static final String DISH_HEAD_MASTER = BASE + "/dishhead";
 	public static final String FLOOR_MASTER = BASE + "/floor";
+	public static final String KITCHEN_MASTER = BASE + "/kitchenmaster";
 
 }
