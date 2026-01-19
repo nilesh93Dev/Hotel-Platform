@@ -9,5 +9,6 @@ public class ApiPath {
 	public static final String DISH_HEAD_MASTER = BASE + "/dishhead";
 	public static final String FLOOR_MASTER = BASE + "/floor";
 	public static final String KITCHEN_MASTER = BASE + "/kitchenmaster";
+	public static final String ROOM_TYPE_MASTER = BASE + "/roomtypes";
 
 }
