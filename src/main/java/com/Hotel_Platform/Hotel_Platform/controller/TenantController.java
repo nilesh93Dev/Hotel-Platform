@@ -18,6 +18,7 @@ import com.Hotel_Platform.Hotel_Platform.service.EmailService;
 import com.Hotel_Platform.Hotel_Platform.service.TenantService;
 import static com.Hotel_Platform.Hotel_Platform.config.ApiPath.TENANT_MASTER;
 
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
@@ -39,8 +40,23 @@ public class TenantController {
 
     // Step 1: Request tenant creation
     //@PostMapping("/request")
+//    @PostMapping
+//    public ResponseEntity<String> requestTenantCreation(@RequestBody PendingTenant pendingTenant) {
+//        String token = UUID.randomUUID().toString();
+//        pendingTenant.setVerificationToken(token);
+//        pendingTenant.setVerified(false);
+//
+//        pendingTenantStore.put(token, pendingTenant);
+//
+//        // Send email to admin
+//        emailService.sendVerificationLink("nileshkumarpatna93@gmail.com", token);
+//
+//        return ResponseEntity.ok("Verification link sent to admin email.");
+//    }
+    
+    
     @PostMapping
-    public ResponseEntity<String> requestTenantCreation(@RequestBody PendingTenant pendingTenant) {
+    public ResponseEntity<String> requestTenantCreation(@RequestBody PendingTenant pendingTenant) throws IOException {
         String token = UUID.randomUUID().toString();
         pendingTenant.setVerificationToken(token);
         pendingTenant.setVerified(false);
@@ -48,10 +64,10 @@ public class TenantController {
         pendingTenantStore.put(token, pendingTenant);
 
         // Send email to admin
-        emailService.sendVerificationLink("nileshkumarpatna93@gmail.com", token);
-
-        return ResponseEntity.ok("Verification link sent to admin email.");
+		emailService.sendVerificationLink("nileshkumarpatna93@gmail.com", token);
+		return ResponseEntity.ok("Verification link sent to admin email.");
     }
+
 
     // Step 2: Verify tenant
     @GetMapping("/verify")
