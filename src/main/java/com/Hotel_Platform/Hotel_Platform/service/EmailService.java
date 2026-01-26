@@ -12,9 +12,13 @@ public class EmailService {
 
     public void sendVerificationLink(String toEmail, String token) {
         try {
-            String subject = "Tenant Verification Required";
+//            String subject = "Tenant Verification Required";
+        	String subject = "Action Required: Verify New Tenant";
+
             String link = "https://hotel-platform.onrender.com/Hotel/tenantmaster/verify?token=" + token;
-            String body = "Click the link to verify tenant creation: " + link;
+            //String body = "Click the link to verify tenant creation: " + link;
+            String body = "Dear Admin,\n\nPlease verify the new tenant creation by clicking the link below:\n\n" + link + "\n\nThanks,\nHotel Platform Team";
+
 
             Email from = new Email("nileshkumarpatna93@gmail.com");
             Email to = new Email(toEmail);

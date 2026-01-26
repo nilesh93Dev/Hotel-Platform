@@ -1,5 +1,6 @@
 package com.Hotel_Platform.Hotel_Platform.service;
 
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -124,5 +125,18 @@ public class RoomMasterService {
 	        return mapToDTO(saved);
 	    
 	}
+		
+		
+		public List<RoomMasterDTO> getAllRoomsByTenant(Long tenantId) {
+			
+			Tenant tenant = tenantRepository.findById(tenantId)
+					.orElseThrow(() -> new CustomException(" Tenant not Found ", HttpStatus.NOT_FOUND));
+			
+			List<RoomMaster> viewRooms = roomMasterRepo.findByTenant_Id(tenantId);
+			
+			return viewRooms.stream()
+					.map(this::mapToDTO)
+			        .toList();
+		}
 
 }
