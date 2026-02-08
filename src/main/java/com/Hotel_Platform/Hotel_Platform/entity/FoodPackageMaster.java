@@ -1,8 +1,9 @@
 package com.Hotel_Platform.Hotel_Platform.entity;
 
-import com.Hotel_Platform.Hotel_Platform.enums.RoomStatus;
+import com.Hotel_Platform.Hotel_Platform.enums.GstType;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
@@ -18,39 +19,41 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-@Entity
 @Getter
 @Setter
-@AllArgsConstructor
 @NoArgsConstructor
-@Table(name = "room_master")
-public class RoomMaster {
+@AllArgsConstructor
+@Entity
+@Table(name = "food_package_master")
+public class FoodPackageMaster {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	
-	private String roomName;
+	private String foodName;
+	private Double rate;
 	
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "room_type_id")
-	private RoomTypeMaster roomType;
+	@Column(name = "gst_percentage")
+	private Double gstPercentage;
 	
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "floor_id")
-	private FloorMaster floor;
+	@Enumerated(EnumType.STRING)
+	@Column(name = "gst_type")
+	private GstType gstType;
 	
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "tenants_id")
 	@JsonIgnore
 	private Tenant tenant;
 	
-	private double rentPerDay;
 	
-	private double extraBedCharge;
 	
-	@Enumerated(EnumType.STRING)
-	private RoomStatus currentStatus;
+	
+	
+	
+	
+	
+	
 	
 	
 	
