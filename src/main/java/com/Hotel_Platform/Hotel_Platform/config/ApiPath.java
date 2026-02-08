@@ -13,5 +13,6 @@ public class ApiPath {
 	public static final String ROOM_MASTER = BASE + "/roommaster";
 	public static final String ITEM_MASTER = BASE + "/itemmaster";
 	public static final String FOOD_PACKAGE_MASTER = BASE + "/foodpackage";
+	public static final String TABLE_MASTER = BASE + "/tablemaster";
 
 }
