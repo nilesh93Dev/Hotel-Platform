@@ -1,5 +1,6 @@
 package com.Hotel_Platform.Hotel_Platform.service;
 
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -7,10 +8,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 import com.Hotel_Platform.Hotel_Platform.dto.CustomException;
-import com.Hotel_Platform.Hotel_Platform.dto.ItemGroupDTO;
 import com.Hotel_Platform.Hotel_Platform.dto.ItemUnitDTO;
 import com.Hotel_Platform.Hotel_Platform.dto.TenantSummaryDTO;
-import com.Hotel_Platform.Hotel_Platform.entity.ItemGroupMaster;
 import com.Hotel_Platform.Hotel_Platform.entity.ItemUnitMaster;
 import com.Hotel_Platform.Hotel_Platform.entity.Tenant;
 import com.Hotel_Platform.Hotel_Platform.repository.ItemUnitMasterRepository;
@@ -59,6 +58,17 @@ public class ItemUnitMasterService {
 	    ItemUnitMaster saved = itemUnitRepo.save(entity);
 	    return mapToDTO(saved);  // ✅ Only DTO returned
 	}
+	
+	
+	 public List<ItemUnitDTO> getAllUnitByTenant(Long tenantId) {
+	    	if(!tenantRepository.existsById(tenantId)) {
+	    		throw new CustomException(" Tenant Not Found ", HttpStatus.NOT_FOUND);
+	    	}
+	    		List<ItemUnitMaster> unitMaster = itemUnitRepo.findByTenant_Id(tenantId);
+	    		return unitMaster.stream()
+	    				.map(this::mapToDTO)
+	    				.toList();
+	    }
 
 
 }

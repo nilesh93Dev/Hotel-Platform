@@ -1,5 +1,6 @@
 package com.Hotel_Platform.Hotel_Platform.repository;
 
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -11,5 +12,7 @@ import com.Hotel_Platform.Hotel_Platform.entity.ItemUnitMaster;
 public interface ItemUnitMasterRepository extends JpaRepository<ItemUnitMaster, Long> {
 	
 	Optional<ItemUnitMaster> findByUnitNameIgnoreCaseAndTenant_Id(String unitName, Long tenantId);
+
+	List<ItemUnitMaster> findByTenant_Id(Long tenantId);
 
 }
