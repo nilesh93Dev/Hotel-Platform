@@ -17,7 +17,7 @@ public class RoleSeeder implements CommandLineRunner {
 
     @Override
     public void run(String... args) {
-        List<String> defaultRoles = List.of("Admin", "User", "Waiter", "Cleaner");
+        List<String> defaultRoles = List.of("ADMIN", "USER", "Waiter", "Cleaner");
         for (String roleName : defaultRoles) {
             if (!roleRepository.existsByName(roleName)) {
                 Role role = new Role();

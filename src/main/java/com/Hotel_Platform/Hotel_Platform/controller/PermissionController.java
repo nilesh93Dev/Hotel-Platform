@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.Hotel_Platform.Hotel_Platform.entity.Permission;
-import com.Hotel_Platform.Hotel_Platform.entity.Tenant;
+
 import com.Hotel_Platform.Hotel_Platform.service.PermissionService;
 import com.Hotel_Platform.Hotel_Platform.service.TenantService;
 

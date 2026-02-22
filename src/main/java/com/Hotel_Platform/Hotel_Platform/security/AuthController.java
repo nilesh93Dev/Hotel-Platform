@@ -1,5 +1,7 @@
 package com.Hotel_Platform.Hotel_Platform.security;
 
+import java.util.Date;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -14,65 +16,83 @@ import com.Hotel_Platform.Hotel_Platform.entity.Tenant;
 import com.Hotel_Platform.Hotel_Platform.entity.User;
 import com.Hotel_Platform.Hotel_Platform.service.AuthService;
 
-@RestController
-@CrossOrigin(origins = "*")
-@RequestMapping("Hotel/auth")
-public class AuthController {
-	
-	
-	@Autowired
-	private AuthService authService;
-	
-	@Autowired
-    private TenantAuthService tenantAuthService;
-	
-	@Autowired
-	private JwtService jwtService;
+import io.jsonwebtoken.Jwts;
 
-//    @PostMapping("/login")
-//    public ResponseEntity<?> login(@RequestBody LoginRequest request) {
-//        User user = authService.authenticate(request.getEmail(), request.getPassword());
+//@RestController
+//@CrossOrigin(origins = "*")
+//@RequestMapping("Hotel/auth")
+//public class AuthController {
+//	
+//	
+//	@Autowired
+//	private AuthService authService;
+//	
+//	@Autowired
+//    private TenantAuthService tenantAuthService;
+//	
+//	@Autowired
+//	private JwtService jwtService;
 //
-//        String token = jwtService.generateToken(user); // includes tenantId in claims
-//        return ResponseEntity.ok(new JwtResponse(token));
-//    }
-	
-//	@PostMapping("/login")
-//	public ResponseEntity<?> login(@RequestBody LoginRequest request) {
-//	    User user = authService.authenticate(
-//	        request.getEmail(),
-//	        request.getPassword(),
-//	        request.getRole()
-//	    );
 //
-//	    String token = jwtService.generateToken(user); // includes tenantId, role, userId
-//	    return ResponseEntity.ok(new JwtResponse(token));
-//	}
-	
-	
+//	
+//	
 //	@PostMapping("/admin-login")
 //	public ResponseEntity<?> adminLogin(@RequestBody LoginRequest request) {
 //	    Tenant tenant = tenantAuthService.authenticate(request.getEmail(), request.getPassword());
 //	    String token = jwtService.generateTokenWithTenant(tenant);
-//	    return ResponseEntity.ok(new JwtResponse(token));
+//
+//	    JwtResponse response = new JwtResponse(
+//	        token,
+//	        tenant.getId(),
+//	        tenant.getName(),
+//	        tenant.getContactEmail()
+//	    );
+//
+//	    return ResponseEntity.ok(response);
 //	}
-	
-	
-	@PostMapping("/admin-login")
-	public ResponseEntity<?> adminLogin(@RequestBody LoginRequest request) {
-	    Tenant tenant = tenantAuthService.authenticate(request.getEmail(), request.getPassword());
-	    String token = jwtService.generateTokenWithTenant(tenant);
-
-	    JwtResponse response = new JwtResponse(
-	        token,
-	        tenant.getId(),
-	        tenant.getName(),
-	        tenant.getContactEmail()
-	    );
-
-	    return ResponseEntity.ok(response);
-	}
 
 
+@RestController
+@CrossOrigin(origins = "*")
+@RequestMapping("Hotel/auth")
+public class AuthController {
+
+    @Autowired
+    private AuthService authService;
+
+    @Autowired
+    private TenantAuthService tenantAuthService;
+
+    @Autowired
+    private JwtService jwtService;
+
+    @PostMapping("/admin-login")
+    public ResponseEntity<?> adminLogin(@RequestBody LoginRequest request) {
+        // Authenticate tenant (Admin credentials)
+        Tenant tenant = tenantAuthService.authenticate(request.getEmail(), request.getPassword());
+
+        // ✅ Generate JWT token with role + tenant info
+        String token = Jwts.builder()
+                .setSubject(request.getEmail())
+                .claim("role", "ADMIN")   // match DB role exactly
+                .claim("tenantId", tenant.getId())
+                .setIssuedAt(new Date())
+                .setExpiration(new Date(System.currentTimeMillis() + 86400000)) // 1 day expiry
+                .signWith(jwtService.getSecretKey())
+                .compact();
+
+        JwtResponse response = new JwtResponse(
+                token,
+                tenant.getId(),
+                tenant.getName(),
+                tenant.getContactEmail()
+        );
+
+        return ResponseEntity.ok(response);
+    }
 }
+
+
+
+
 

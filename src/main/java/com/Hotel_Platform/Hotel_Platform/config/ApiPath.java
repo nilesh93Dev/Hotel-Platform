@@ -16,5 +16,6 @@ public class ApiPath {
 	public static final String TABLE_MASTER = BASE + "/tablemaster";
 	public static final String ACCOUNT_MASTER = BASE + "/accountmaster";
 	public static final String CUSTOMER_MASTER = BASE + "/customermaster";
+	public static final String USER_MASTER= BASE + "/usermaster";
 
 }

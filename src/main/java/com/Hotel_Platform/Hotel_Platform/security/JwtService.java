@@ -14,18 +14,11 @@ import io.jsonwebtoken.SignatureAlgorithm;
 
 
 
-import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
+
 
 import javax.crypto.SecretKey;
 
-import org.springframework.stereotype.Service;
 
-import com.Hotel_Platform.Hotel_Platform.entity.User;
-
-import io.jsonwebtoken.Jwts;
-import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.security.Keys;
 
 //@Service
@@ -68,7 +61,9 @@ public class JwtService {
     public String generateToken(User user) {
         Map<String, Object> claims = new HashMap<>();
         claims.put("tenantId", user.getTenant().getId());
-        claims.put("role", user.getRole().getName());
+        //claims.put("role", user.getRole().getName()); // e.g. "Admin"
+        claims.put("role", user.getRole().getName().toUpperCase());
+
 
         return Jwts.builder()
                 .setClaims(claims)
@@ -79,12 +74,13 @@ public class JwtService {
                 .compact();
     }
 
+
     // 🔐 NEW: Token generation for Tenant-based Admin login
     public String generateTokenWithTenant(Tenant tenant) {
         Map<String, Object> claims = new HashMap<>();
         claims.put("tenantId", tenant.getId());
         claims.put("tenantCode", tenant.getTenantCode());
-        claims.put("role", "Admin");
+        claims.put("role", "ADMIN");
 
         return Jwts.builder()
                 .setClaims(claims)
