@@ -1,6 +1,7 @@
 package com.Hotel_Platform.Hotel_Platform.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.Hotel_Platform.Hotel_Platform.entity.Role;
@@ -10,6 +11,9 @@ import com.Hotel_Platform.Hotel_Platform.repository.UserRepository;
 
 @Service
 public class AuthService {
+	
+	@Autowired private
+	PasswordEncoder passwordEncoder;
 	
 
 	    @Autowired
@@ -43,7 +47,24 @@ public class AuthService {
 
 	        return user;
 	    }
+	    
+	    
+	    // ✅ Authenticate user with email + password
+	    public User authenticate(String email, String password) {
+	        // DB से user fetch करो
+	        User user = userRepo.findByEmail(email)
+	                .orElseThrow(() -> new RuntimeException("User not found with email: " + email));
+
+	        // Password verify करो
+	        if (!passwordEncoder.matches(password, user.getPassword())) {
+	            throw new RuntimeException("Invalid password for user: " + email);
+	        }
+
+	        // अगर सब ठीक है तो user return करो
+	        return user;
+	    }
 	}
+	
 	
 
 

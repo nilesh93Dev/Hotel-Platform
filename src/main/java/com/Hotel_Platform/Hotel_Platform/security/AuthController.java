@@ -90,6 +90,29 @@ public class AuthController {
 
         return ResponseEntity.ok(response);
     }
+    
+    
+    
+ // ✅ User login (new)
+    @PostMapping("/login")
+    public ResponseEntity<?> userLogin(@RequestBody LoginRequest request) {
+        // Authenticate user (via AuthService)
+        User user = authService.authenticate(request.getEmail(), request.getPassword());
+
+        // Generate JWT token with role + tenant info
+        String token = jwtService.generateToken(user);
+
+        JwtResponse response = new JwtResponse(
+                token,
+                user.getTenant().getId(),
+                user.getTenant().getName(),
+                user.getEmail()
+        );
+
+        return ResponseEntity.ok(response);
+    }  
+    
+    
 }
 
 
