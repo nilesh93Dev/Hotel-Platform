@@ -65,6 +65,7 @@ public class SecurityConfig {
             .requestMatchers("/Hotel/tenantmaster/**").permitAll()
 
             .requestMatchers("/Hotel/auth/admin-login").permitAll()
+            .requestMatchers("/Hotel/auth/login").permitAll()
             .requestMatchers("/Hotel/auth/**").authenticated()
             .requestMatchers("/Hotel/usermaster/**").hasAuthority("ADMIN")   // DB role match
             .requestMatchers("/Hotel/**").hasAuthority("ADMIN")
