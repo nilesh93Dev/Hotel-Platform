@@ -66,32 +66,6 @@ public class AuthController {
     @Autowired
     private JwtService jwtService;
 
-//    @PostMapping("/admin-login")
-//    public ResponseEntity<?> adminLogin(@RequestBody LoginRequest request) {
-//        // Authenticate tenant (Admin credentials)
-//        Tenant tenant = tenantAuthService.authenticate(request.getEmail(), request.getPassword());
-//
-//        // ✅ Generate JWT token with role + tenant info
-//        String token = Jwts.builder()
-//                .setSubject(request.getEmail())
-//                .claim("role", "ADMIN")   // match DB role exactly
-//                .claim("tenantId", tenant.getId())
-//                .setIssuedAt(new Date())
-//                .setExpiration(new Date(System.currentTimeMillis() + 86400000)) // 1 day expiry
-//                .signWith(jwtService.getSecretKey())
-//                .compact();
-//
-//        JwtResponse response = new JwtResponse(
-//                token,
-//                tenant.getId(),
-//                tenant.getName(),
-//                tenant.getContactEmail()
-//        );
-//
-//        return ResponseEntity.ok(response);
-//    }
-    
-    
     @PostMapping("/admin-login")
     public ResponseEntity<?> adminLogin(@RequestBody LoginRequest request) {
         // Authenticate tenant (Admin credentials)
@@ -107,29 +81,37 @@ public class AuthController {
                 .signWith(jwtService.getSecretKey())
                 .compact();
 
-        // ✅ Return only token (minimal response)
         JwtResponse response = new JwtResponse(token);
+        		//(
+//                token,
+//                tenant.getId(),
+//                tenant.getName(),
+//                tenant.getContactEmail()
+//        );
 
         return ResponseEntity.ok(response);
     }
-
     
     
     
  // ✅ User login (new)
     @PostMapping("/login")
     public ResponseEntity<?> userLogin(@RequestBody LoginRequest request) {
+        // Authenticate user (via AuthService)
         User user = authService.authenticate(request.getEmail(), request.getPassword());
 
-        // Generate JWT token
+        // Generate JWT token with role + tenant info
         String token = jwtService.generateToken(user);
 
-        // ✅ Return only token
         JwtResponse response = new JwtResponse(token);
+               // token,
+//                user.getTenant().getId(),
+//                user.getTenant().getName(),
+//                user.getEmail()
+//        );
 
         return ResponseEntity.ok(response);
-    }
-
+    }  
     
     
 }

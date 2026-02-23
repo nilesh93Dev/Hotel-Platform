@@ -20,45 +20,27 @@ package com.Hotel_Platform.Hotel_Platform.dto;
 public class JwtResponse {
 
     private String token;
-
-	public JwtResponse(String token) {
-		super();
-		this.token = token;
-	}
-
-	public String getToken() {
-		return token;
-	}
-
-	public void setToken(String token) {
-		this.token = token;
-	}
-	
-}
-    
-    
-    
-    
 //    private Long tenantId;
 //    private String tenantName;
 //    private String email;
-//
-//    public JwtResponse(String token, Long tenantId, String tenantName, String email) {
-//        this.token = token;
+
+    //public JwtResponse(String token, Long tenantId, String tenantName, String email) {
+    public JwtResponse(String token) {
+        this.token = token;
 //        this.tenantId = tenantId;
 //        this.tenantName = tenantName;
 //        this.email = email;
-//    }
-//
-//    // Getters and setters
-//    public String getToken() {
-//        return token;
-//    }
-//
-//    public void setToken(String token) {
-//        this.token = token;
-//    }
-//
+    }
+
+    // Getters and setters
+    public String getToken() {
+        return token;
+    }
+
+    public void setToken(String token) {
+        this.token = token;
+    }}
+
 //    public Long getTenantId() {
 //        return tenantId;
 //    }
@@ -83,7 +65,7 @@ public class JwtResponse {
 //        this.email = email;
 //    }
 //}
-//	
-//	
-//
-//
+	
+	
+
+
