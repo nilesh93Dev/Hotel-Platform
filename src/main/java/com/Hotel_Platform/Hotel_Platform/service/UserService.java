@@ -13,7 +13,8 @@ import com.Hotel_Platform.Hotel_Platform.dto.CustomException;
 import com.Hotel_Platform.Hotel_Platform.dto.RoleDTO;
 import com.Hotel_Platform.Hotel_Platform.dto.TenantSummaryDTO;
 import com.Hotel_Platform.Hotel_Platform.dto.UserCreateRequest;
-
+import com.Hotel_Platform.Hotel_Platform.dto.UserDTO;
+import com.Hotel_Platform.Hotel_Platform.dto.UserPermissionDTO;
 import com.Hotel_Platform.Hotel_Platform.entity.Permission;
 import com.Hotel_Platform.Hotel_Platform.entity.Role;
 import com.Hotel_Platform.Hotel_Platform.entity.Tenant;
@@ -57,11 +58,33 @@ public class UserService {
         return userRepository.save(user);
     }
 
-    // Get all users of tenant
-    public List<User> getUsersByTenant(Long tenantId) {
-        return userRepository.findByTenantId(tenantId);
+//    // Get all users of tenant
+//    public List<User> getUsersByTenant(Long tenantId) {
+//        return userRepository.findByTenantId(tenantId);
+//    }
+    
+    
+    
+    public List<UserDTO> getUsersByTenant(Long tenantId) {
+        List<User> users = userRepository.findByTenantId(tenantId);
+
+        // Convert entity list to DTO list
+        return users.stream()
+                .map(user -> new UserDTO(
+                        user.getId(),
+                        user.getUserName(),
+                        user.getEmail(),
+                        null, // password hide for security
+                        new RoleDTO(user.getRole().getId(), user.getRole().getName(), null),
+                        new TenantSummaryDTO(user.getTenant().getId(), user.getTenant().getName()),
+                        user.getPermissions().stream()
+                            .map(p -> new UserPermissionDTO(p.getId(), p.getName()))
+                            .toList()
+                ))
+                .toList();
     }
 }
+
 
 
 //@Service

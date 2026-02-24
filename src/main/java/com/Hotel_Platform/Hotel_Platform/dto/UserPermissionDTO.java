@@ -16,4 +16,10 @@ public class UserPermissionDTO {
     private Boolean canCreate;
     private Boolean canEdit;
     private Boolean canDelete;
+    
+    
+    public UserPermissionDTO(Long id, String name) {
+        this.id = id;
+        this.name = name;
+    }
 }

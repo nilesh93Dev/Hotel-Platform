@@ -7,6 +7,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 
@@ -18,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import org.springframework.web.bind.annotation.RestController;
 
+import com.Hotel_Platform.Hotel_Platform.dto.UserDTO;
 import com.Hotel_Platform.Hotel_Platform.entity.User;
 import com.Hotel_Platform.Hotel_Platform.service.UserService;
 import static com.Hotel_Platform.Hotel_Platform.config.ApiPath.USER_MASTER;;
@@ -60,11 +62,21 @@ public class UserController {
     }
 
     // Get all users of tenant
+//    @GetMapping
+//    public ResponseEntity<List<User>> getUsers(
+//            @RequestAttribute("tenantId") Long tenantId) {
+//
+//        return ResponseEntity.ok(userService.getUsersByTenant(tenantId));
+//    }
+    
+    
+    
+    //@GetMapping("/usermaster")
     @GetMapping
-    public ResponseEntity<List<User>> getUsers(
-            @RequestAttribute("tenantId") Long tenantId) {
-
-        return ResponseEntity.ok(userService.getUsersByTenant(tenantId));
+    @PreAuthorize("hasAuthority('ADMIN')")
+    public ResponseEntity<List<UserDTO>> getUsers(@RequestAttribute("tenantId") Long tenantId) {
+        List<UserDTO> users = userService.getUsersByTenant(tenantId);
+        return ResponseEntity.ok(users);
     }
 }
 
