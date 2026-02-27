@@ -9,15 +9,14 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class RoleDTO {
-    private Long id;
-
-    private String name;
-
-    private String roleName;
-    
-    public RoleDTO(Long id, String name) {
-    	this.id = id;
-    	this.name = name; }
+public class WaiterMasterDTO {
+	
+	private Long id;
+	private String waiterName;
+	//private String email;
+	private RoleDTO role;
+	private TenantSummaryDTO tenant;
+	
+	
 
 }

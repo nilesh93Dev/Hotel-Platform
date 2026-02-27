@@ -111,10 +111,32 @@ public class AuthController {
 //        );
 
         return ResponseEntity.ok(response);
-    }  
+    } 
     
     
+ // ✅ Waiter login
+    @PostMapping("/waiter-login")
+    public ResponseEntity<?> waiterLogin(@RequestBody LoginRequest request) {
+        // Authenticate waiter (via AuthService)
+        User waiter = authService.authenticate(request.getEmail(), request.getPassword());
+
+        // Check role is WAITER
+        if (!"WAITER".equalsIgnoreCase(waiter.getRole().getName())) {
+            return ResponseEntity.status(403).body("Not authorized as waiter");
+        }
+
+        // Generate JWT token with role + tenant info
+        String token = jwtService.generateToken(waiter);
+
+        JwtResponse response = new JwtResponse(token);
+      
+        return ResponseEntity.ok(response);
+    }
 }
+
+    
+    
+
 
 
 
