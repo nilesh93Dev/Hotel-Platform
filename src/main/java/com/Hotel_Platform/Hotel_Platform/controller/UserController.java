@@ -73,7 +73,7 @@ public class UserController {
     
     //@GetMapping("/usermaster")
     @GetMapping
-    @PreAuthorize("hasAuthority('ADMIN')")
+   // @PreAuthorize("hasAuthority('ADMIN')")
     public ResponseEntity<List<UserDTO>> getUsers(@RequestAttribute("tenantId") Long tenantId) {
         List<UserDTO> users = userService.getUsersByTenant(tenantId);
         return ResponseEntity.ok(users);
