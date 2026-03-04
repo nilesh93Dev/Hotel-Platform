@@ -92,8 +92,8 @@ public class SecurityConfig {
             // ✅ Create User → Admin only
             .requestMatchers(HttpMethod.POST, "/Hotel/usermaster/**").hasAuthority("ADMIN")
 
-            // ✅ Get Users → Any authenticated user
-            .requestMatchers(HttpMethod.GET, "/Hotel/usermaster/**").authenticated()
+            // ✅ Get Users → Public (no token required)
+            .requestMatchers(HttpMethod.GET, "/Hotel/usermaster/**").permitAll()
 
             // ✅ Other Hotel APIs → Admin only
             .requestMatchers("/Hotel/**").hasAuthority("ADMIN")
@@ -105,6 +105,8 @@ public class SecurityConfig {
 
         return http.build();
     }
+
+
 
 
 
