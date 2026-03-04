@@ -2,6 +2,7 @@ package com.Hotel_Platform.Hotel_Platform.security;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
@@ -58,6 +59,26 @@ public class SecurityConfig {
         return config.getAuthenticationManager();
     }
 
+//    @Bean
+//    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+//        http.csrf().disable()
+//            .authorizeHttpRequests()
+//            .requestMatchers("/Hotel/tenantmaster/**").permitAll()
+//
+//            .requestMatchers("/Hotel/auth/admin-login").permitAll()
+//            .requestMatchers("/Hotel/auth/login").permitAll()
+//            .requestMatchers("/Hotel/auth/**").authenticated()
+//            .requestMatchers("/Hotel/usermaster/**").hasAuthority("ADMIN")   // DB role match
+//            .requestMatchers("/Hotel/**").hasAuthority("ADMIN")
+//            .anyRequest().authenticated()
+//            .and()
+//            .authenticationProvider(authenticationProvider())
+//            .addFilterBefore(jwtTenantFilter, UsernamePasswordAuthenticationFilter.class);
+//
+//        return http.build();
+//    }
+    
+    
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http.csrf().disable()
@@ -67,8 +88,16 @@ public class SecurityConfig {
             .requestMatchers("/Hotel/auth/admin-login").permitAll()
             .requestMatchers("/Hotel/auth/login").permitAll()
             .requestMatchers("/Hotel/auth/**").authenticated()
-            .requestMatchers("/Hotel/usermaster/**").hasAuthority("ADMIN")   // DB role match
+
+            // ✅ Create User → Admin only
+            .requestMatchers(HttpMethod.POST, "/Hotel/usermaster/**").hasAuthority("ADMIN")
+
+            // ✅ Get Users → Any authenticated user
+            .requestMatchers(HttpMethod.GET, "/Hotel/usermaster/**").authenticated()
+
+            // ✅ Other Hotel APIs → Admin only
             .requestMatchers("/Hotel/**").hasAuthority("ADMIN")
+
             .anyRequest().authenticated()
             .and()
             .authenticationProvider(authenticationProvider())
@@ -76,6 +105,7 @@ public class SecurityConfig {
 
         return http.build();
     }
+
 
 
 
