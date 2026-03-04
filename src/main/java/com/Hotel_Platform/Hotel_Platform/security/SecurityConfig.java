@@ -59,26 +59,6 @@ public class SecurityConfig {
         return config.getAuthenticationManager();
     }
 
-//    @Bean
-//    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-//        http.csrf().disable()
-//            .authorizeHttpRequests()
-//            .requestMatchers("/Hotel/tenantmaster/**").permitAll()
-//
-//            .requestMatchers("/Hotel/auth/admin-login").permitAll()
-//            .requestMatchers("/Hotel/auth/login").permitAll()
-//            .requestMatchers("/Hotel/auth/**").authenticated()
-//            .requestMatchers("/Hotel/usermaster/**").hasAuthority("ADMIN")   // DB role match
-//            .requestMatchers("/Hotel/**").hasAuthority("ADMIN")
-//            .anyRequest().authenticated()
-//            .and()
-//            .authenticationProvider(authenticationProvider())
-//            .addFilterBefore(jwtTenantFilter, UsernamePasswordAuthenticationFilter.class);
-//
-//        return http.build();
-//    }
-    
-    
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http.csrf().disable()
@@ -88,16 +68,8 @@ public class SecurityConfig {
             .requestMatchers("/Hotel/auth/admin-login").permitAll()
             .requestMatchers("/Hotel/auth/login").permitAll()
             .requestMatchers("/Hotel/auth/**").authenticated()
-
-            // ✅ Create User → Admin only
-            .requestMatchers(HttpMethod.POST, "/Hotel/usermaster/**").hasAuthority("ADMIN")
-
-            // ✅ Get Users → Public (no token required)
-            .requestMatchers(HttpMethod.GET, "/Hotel/usermaster/**").permitAll()
-
-            // ✅ Other Hotel APIs → Admin only
+            .requestMatchers("/Hotel/usermaster/**").hasAuthority("ADMIN")   // DB role match
             .requestMatchers("/Hotel/**").hasAuthority("ADMIN")
-
             .anyRequest().authenticated()
             .and()
             .authenticationProvider(authenticationProvider())
@@ -105,6 +77,34 @@ public class SecurityConfig {
 
         return http.build();
     }
+    
+    
+//    @Bean
+//    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+//        http.csrf().disable()
+//            .authorizeHttpRequests()
+//            .requestMatchers("/Hotel/tenantmaster/**").permitAll()
+//
+//            .requestMatchers("/Hotel/auth/admin-login").permitAll()
+//            .requestMatchers("/Hotel/auth/login").permitAll()
+//            .requestMatchers("/Hotel/auth/**").authenticated()
+//
+//            // ✅ Create User → Admin only
+//            .requestMatchers(HttpMethod.POST, "/Hotel/usermaster/**").hasAuthority("ADMIN")
+//
+//            // ✅ Get Users → Public (no token required)
+//            .requestMatchers(HttpMethod.GET, "/Hotel/usermaster/**").permitAll()
+//
+//            // ✅ Other Hotel APIs → Admin only
+//            .requestMatchers("/Hotel/**").hasAuthority("ADMIN")
+//
+//            .anyRequest().authenticated()
+//            .and()
+//            .authenticationProvider(authenticationProvider())
+//            .addFilterBefore(jwtTenantFilter, UsernamePasswordAuthenticationFilter.class);
+//
+//        return http.build();
+//    }
 
 
 
